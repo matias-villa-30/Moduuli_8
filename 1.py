@@ -3,7 +3,7 @@ import mysql.connector
 connection = mysql.connector.connect(
          host='localhost',
          port= 3306,
-         database='airports',
+         database='flight_game',
          user='root',
          password='',
          autocommit=True
@@ -11,18 +11,16 @@ connection = mysql.connector.connect(
 
 icao_koodi = input("Anna ICAO koodi: ")
 
-koodi_tietokannassa = "SELECT * FROM airports WHERE name=%s"
+koodi_tietokannassa = "SELECT name FROM airport WHERE ident=%s"
 cursor = connection.cursor()
 cursor.execute(koodi_tietokannassa, (icao_koodi,))
 
-results = cursor.fetchall()
+results = cursor.fetchone()
 
 if results:
-    first_result = results[0]
-    kaupunki = first_result[3]
-    paikka = first_result[0]
-    print(f"Lentoaseman kaupunki on: {kaupunki}")
-    print(f"Lentoaseman tietokannan paikka on: {paikka}")
+    for item in results:
+        print(f"Lentoasema on: {item}")
+
 
 else:
     print("Koodi on väärin")
